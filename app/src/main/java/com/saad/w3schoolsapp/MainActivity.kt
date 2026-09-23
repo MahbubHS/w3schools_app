@@ -34,6 +34,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import androidx.webkit.WebSettingsCompat
 import androidx.webkit.WebViewFeature
 import com.saad.w3schoolsapp.databinding.ActivityMainBinding
@@ -289,7 +290,7 @@ class MainActivity : AppCompatActivity() {
                     setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
                     setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
                     setTitle(fileName)
-                    setAllowedOverMeteredNetworks(true)
+                    setAllowedOverMetered(true)
                 }
 
                 val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
@@ -382,10 +383,18 @@ class MainActivity : AppCompatActivity() {
             if (binding.webView.canGoBack()) {
                 binding.webView.goBack()
             } else {
-                isEnabled = false
-                onBackPressedDispatcher.onBackPressed()
+                showExitConfirmation()
             }
         }
+    }
+
+    private fun showExitConfirmation() {
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.exit_dialog_title)
+            .setMessage(R.string.exit_dialog_message)
+            .setNegativeButton(R.string.exit_dialog_cancel, null)
+            .setPositiveButton(R.string.exit_dialog_exit) { _, _ -> finish() }
+            .show()
     }
 
     companion object {
