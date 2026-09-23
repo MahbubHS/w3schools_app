@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Brand -->
+    <color name="brandGreen">#04AA6D</color>
+
+    <!-- Behind the WebView while pages load / for the offline screen (light) -->
+    <color name="webContentBackground">#FFFFFF</color>
+    <color name="onWebContentBackground">#1A1A1A</color>
+    <color name="onWebContentBackgroundMuted">#6B6B6B</color>
+
+    <!-- Splash text (light) -->
+    <color name="splashTextPrimary">#1A1A1A</color>
+    <color name="splashTextSecondary">#4A4A4A</color>
+
+    <!-- Launcher adaptive icon background plate -->
+    <color name="ic_launcher_background">#FFFFFF</color>
+
+    <!-- System bar (edge-to-edge, but declared for tooling/previews) -->
+    <color name="statusBarScrim">#00000000</color>
+</resources>

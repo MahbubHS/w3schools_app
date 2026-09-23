@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Brand green stays consistent across themes -->
+    <color name="brandGreen">#04AA6D</color>
+
+    <!-- Behind the WebView while pages load / for the offline screen (dark) -->
+    <color name="webContentBackground">#0B1624</color>
+    <color name="onWebContentBackground">#F2F2F2</color>
+    <color name="onWebContentBackgroundMuted">#9AA5B1</color>
+
+    <!-- Splash text (dark) -->
+    <color name="splashTextPrimary">#F2F2F2</color>
+    <color name="splashTextSecondary">#B7C2CC</color>
+
+    <color name="ic_launcher_background">#FFFFFF</color>
+
+    <color name="statusBarScrim">#00000000</color>
+</resources>

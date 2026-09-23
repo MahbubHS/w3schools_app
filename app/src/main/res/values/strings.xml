@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">W3Schools</string>
+    <string name="splash_tagline">Learn to Code — Anytime, Anywhere</string>
+    <string name="splash_made_for">✦ Made for Saad ✦</string>
+
+    <string name="offline_title">You\'re offline</string>
+    <string name="offline_subtitle">Check your connection and try again.</string>
+    <string name="offline_retry">Retry</string>
+    <string name="still_offline">Still no connection</string>
+
+    <string name="download_started">Downloading %1$s…</string>
+    <string name="download_failed">Couldn\'t start the download</string>
+
+    <string name="start_url" translatable="false">https://www.w3schools.com</string>
+</resources>

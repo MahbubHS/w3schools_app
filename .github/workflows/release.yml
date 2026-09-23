@@ -1,0 +1,83 @@
+name: Release
+
+# Triggered by pushing a version tag, e.g.:
+#   git tag v1.0.0
+#   git push origin v1.0.0
+#
+# This builds a release APK stamped with that version (versionName = the tag
+# without its leading "v"; versionCode = this workflow's run number, which is
+# always increasing) and attaches it to a new GitHub Release.
+#
+# Note on signing: this is a personal app that is never distributed through
+# the Play Store, so the release build is signed with the standard
+# auto-generated Android debug keystore (see app/build.gradle.kts) rather
+# than a dedicated production key. That keeps this workflow self-contained
+# with no signing secrets to manage. If that ever needs to change, add a real
+# keystore as a base64-encoded repository secret and a signingConfig that
+# reads it.
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version name to build (e.g. 1.0.0)"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: 8.6
+
+      - name: Resolve version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            VERSION_NAME="${{ inputs.version }}"
+          else
+            VERSION_NAME="${GITHUB_REF#refs/tags/v}"
+          fi
+          echo "name=$VERSION_NAME" >> "$GITHUB_OUTPUT"
+          echo "code=${{ github.run_number }}" >> "$GITHUB_OUTPUT"
+
+      - name: Build release APK
+        run: >
+          gradle assembleRelease --no-daemon --stacktrace
+          -PappVersionName=${{ steps.version.outputs.name }}
+          -PappVersionCode=${{ steps.version.outputs.code }}
+
+      - name: Stage APK
+        run: |
+          mkdir -p release-out
+          cp app/build/outputs/apk/release/*.apk \
+             "release-out/W3SchoolsApp-${{ steps.version.outputs.name }}.apk"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.name }}
+          name: v${{ steps.version.outputs.name }}
+          files: release-out/*.apk
+          generate_release_notes: true
